@@ -62,9 +62,12 @@ def svix_squared(cdf):
     0.0401
     """
     ## TODO: Implement this function as specified in the docstring above.
-    raise NotImplementedError(
-        "Implement svix_squared (see HOMEWORK INSTRUCTIONS at the top of this file)"
-    )
+    g = cdf.grid
+    f = cdf.forward
+    p = np.where(g<=f, cdf.put_grid, cdf.call_grid)
+    a = np.trapezoid(p, x=g)
+
+    return float(2.0 * a / (cdf.maturity_years * f))
 
 
 def interpolate_variance(svix2_near, tau_near, svix2_far, tau_far, horizon_years=HORIZON_DAYS / 365.0):
